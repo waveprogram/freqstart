@@ -1,0 +1,20 @@
+# .github/workflows/merge-upstream.yml
+
+name: Merge Upstream NFI Repository
+on:
+  schedule:
+     # actually, ~5 minutes is the highest
+     # effective frequency you will get
+    - cron:  '0 0,4,8,12,16,20 * * *'
+  workflow_dispatch:
+jobs:
+  Merge-NFI:
+    environment: default
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Merge Upstream NFI
+        env:
+          GHUSER: ${{ secrets.GHUSER }}
+          GHEMAIL: ${{ secrets.GHEMAIL }}
+        run: ./.github/workflows/scripts/merge.sh
